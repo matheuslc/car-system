@@ -1,14 +1,9 @@
 #ifndef STRUCTURES_LINKED_LIST_H
 #define STRUCTURES_LINKED_LIST_H
 
-#include <cstdint>
-#include <stdexcept>
+#include <cstdint>  // std::size_t
+#include <stdexcept> // C++ exceptions
 
-/**
- *  Double linked list.
- *
- * @tparam  T   Tipo de dado do template.
-*/
 template<typename T>
 class LinkedList {
  public:
