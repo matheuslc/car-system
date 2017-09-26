@@ -7,14 +7,14 @@
 class Semaphore {
  private: 
      Semaphore *nextSemaphore; // Points to the next semaphore;
-     bool isOpen_;  // Return the current state
+     bool isOpen;  // Current state
  
  public: 
      Semaphore();  // Constructor method
-     Semaphore(bool isOpen_);  // Constructor method
+     Semaphore(bool state);  // Constructor method
      void setNext(Semaphore *next);  // Set next semaphore
-     void nextState();  // Set next direction
-     bool getOpens() const;  // Return open semaphores
+     void nextState();  // Change state of a semaphore
+     bool getOpen() const;  // Return state of a semaphore
 };
 
 #endif
