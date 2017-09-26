@@ -1,11 +1,10 @@
-#include <cstdlib>
 #include "Vehicle.hpp"
+#include <cstdlib>
 
 Vehicle::Vehicle() {
-    size_ = FIXED_SIZE + VARIABLE_SIZE * (int(rand()) / RAND_MAX);
-
+    size_ = FIXED_SIZE + VARIABLE_SIZE  * (double(rand()) / RAND_MAX);
 }
 
-int Vehicle::getSize() {
+int Vehicle:getsize() {
     return size_;
 }

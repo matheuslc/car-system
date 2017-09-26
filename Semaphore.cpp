@@ -2,23 +2,23 @@
 
 Semaphore::Semaphore() {
     nextSemaphore = nullptr;
-    isOpen = false;
+    isOpen_ = false;
 }
 
 Semaphore::Semaphore(bool state) {
     nextSemaphore = nullptr;
-    isOpen = state;
+    isOpen_ = state;
 }
 
-void Semaphore::nextState() {
-    isOpen = !isOpen;
-    nextSemaphore -> isOpen = !(nextSemaphore -> isOpen);
+bool Semaphore::isOpen() const{
+    return isOpen_;
 }
 
-void Semaphore::setNext(Semaphore *next) {
+void Semaphore::setNextSemaphore(Semaphore *next) {
     nextSemaphore = next;
 }
 
-bool Semaphore::getOpen() const {
-    return isOpen;
+void Semaphore::changeState() {
+    isOpen_ = !isOpen_;
+    nextSemaphore -> isOpen_ = !(nextSemaphore -> isOpen_);
 }
