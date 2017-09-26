@@ -1,72 +1,76 @@
-#ifdef ROAD_HPP
+#ifndef ROAD_HPP
 #define ROAD_HPP
 
-#include "linked_queue.h"
 #include "Vehicle.hpp"
 #include "Semaphore.hpp"
+#include "linked_queue.h"
 
 /*!
- * Class that representes a Road.
- * */
+ * Class that represent a Road
+ */
 class Road {
- protected:
-     Semaphore& semaphore;  // Last semaphore on road
-     int size = 0;  // Size
-     int speed = 0;  // Speed
-     int in = 0;  // Amount of cars in
-     int out = 0;  // Amount of cars out
-     LinkedQueue<Vehicle> vehicleQueue;  // Queue of cars
-     static totalIn, totalOut;  // Every car in/out in every road
-     double probabilityLeft, probabilityRight;  // right/left probability
-
- public:
-     Road(Semaphore& sem, int size, int speed); // Constructor method
-     void add(Vehicle v);  // Push_front a car;
-     Vehicle pop();  // Pop_back a car;
-     bool isEmpty();  // Check if road is empty;
-     virtual Road& moveVehicle();  // Move vehicle to next road
-     int timeToTravelRoad() const;  // Time for travel the current road
-     int vehicleIn();  // amount of cars in
-     int vehicleOut();  // amout of cars out
-     int vehicleAreIn();  // amount of cars that are on the road
-     static int totalIn();  // amount of cars in on every road
-     static int totalOut();  // amount of cars out on every road
-};
-
-/*!
- * Class that represents a source road
- */
-class Source : public Road {
  private:
-     int fixedFrequency = 0;
+    Semaphore& semaphore;
+    int size_ = 0;
+    int speed_ = 0;
+    int vehicleIn_ = 0;
+    int vehicleOut_ = 0;
+    double probabilityLeft;
+    double probabilityRight;
+    static int totalIn_;
+    static int totalOut_;
+
+ public:
+    Road(Semaphore& semaphore, int size, int speed, double probabilityLeft, double probabilityRight);  // Constructor metho.
+    void add(Vehicle vehicle);  // Add a vehicle on road.
+    Vehicle pop();  // Remove a vehicle.
+    bool isEmpty();  // Return if road is empty.
+    virtual Road& moveVehicle();  // move for another road
+    int timeToTravel() const; // Return time to travel
+    int vehicleIn() const;  // amount of cars in
+    int vehicleOut() const;  //amount of cars out
+    int vehicleStay() const;  // amount of cars in road
+    static int totalIn();
+    static int totalOut();
+
+};
+
+/*!
+ * Exit road
+ */
+class wayOut() : public Road {
+ public:
+     wayOut(Semaphore& semaphore, int size, int speed);  // Constructor method.
+};
+
+/*!
+ * Source road
+ */
+class wayIn() : public Road {
+ private:
      int variableFrequency = 0;
-     Road &leftExit, &rightExit, &straightExit;
+     int fixedFrequency = 0;  // Frequency for a new car
+     Road &leftExit, &rightExit, &straightExit;  // All exit roads if a car is in source road
 
  public:
-     Source(Semaphore& sem, int size, int speed, int fixedFrequency, int variableFrequency, Road& rightExit, Road& straightExit, Road& leftExit, double probabilityLeft, double probabilityRight);
-     void createVehicle();
-     virtual Road& moveVehicle();
-     int nextEvent(int time);
+     wayIn();  // Constructor method
+     virtual Road& moveVehicle();  // Move a vehicle to another road
+     int nextEvent(int time); /// Time for next event
+     void createVehicle();  // Generate a new car
+    
 };
 
 /*!
- * Class that represents the central road
+ * Middle road
  */
-class CenterRoad : public Road {
- private: 
-    Road &leftExit, &rightExit, &straightExit;
+class middleRoad() : public Road {
+ private:
+    Road &leftExit, &rightExit, &straightExit;  // All exit roads if a car is in middleRoad.
 
  public:
-    CenterRoad(Semaphore& sem, int size, int speed, Road& rightExit, Road& straightExit, Road& leftExit, double probabilityLeft, double probabilityRight);
-    virtual Road moveVehicle();
-};
-
-/*!
- * Class that represents a exit road
- */
-class ExitRoad : public Road {
- public:i
-        ExitRoad(Semaphore& sem, int size, int speed);  // Constructor method
+     middleRoad(Semaphore& semaphore, int size, int speed, Road& leftExit, Road& rightExit, Road& straightExit, double probabilityLeft, double probabilityRight);  // Constructor method.
+    virtual Road& moveVehicle();
 };
 
 #endif
+
