@@ -12,6 +12,7 @@ class Vehicle {
      int speed_;  // Vehicle speed
      const int FIXED_SIZE = 5;
      const int VARIABLE_SIZE = 3;
+ 
  public:
      Vehicle();  // Constructor method
      int getSize();  // Return vehicle's size

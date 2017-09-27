@@ -5,6 +5,6 @@ Vehicle::Vehicle() {
     size_ = FIXED_SIZE + VARIABLE_SIZE  * (double(rand()) / RAND_MAX);
 }
 
-int Vehicle:getsize() {
+int Vehicle::getsize() {
     return size_;
 }
