@@ -9,7 +9,8 @@
  * Class that represent a Road
  */
 class Road {
- private:
+ protected:
+    LinkedQueue<Vehicle> queue;
     Semaphore& semaphore;
     int size_ = 0;
     int speed_ = 0;

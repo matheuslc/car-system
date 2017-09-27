@@ -1,18 +1,18 @@
 #include "Road.hpp"
 #include <cstdlib>
+#include "linked_queue.h"
 
 int Road::totalIn_ = 0;
 int Road::totalOut_ = 0;
 
-Road::Road(Semaphore &semaphore, int size, int speed, double probabilityLeft, doubleprobabilityRight) {
-    semaphore = semaphore;
-    size_ = size;
-    speed_ = 0;
-    probabilityLeft = probabilityLeft;
-    probabilityRight = proabilityRight;
-}
+Road::Road(Semaphore& semaphore, int size, int speed, double probabilityLeft, double probabilityRight) :
+	semaphore(semaphore),
+	size_(size_),
+	speed_(speed_),
+	probabilityLeft(probabilityLeft),
+	probabilityRight(probabilityRight) {}
 
-void Road::add(Vehiche vehicle) {
+void Road::add(Vehicle vehicle) {
     if(vehicle.getSize() > size_)
         throw std::runtime_error("A rua já está cheia.");
 
@@ -24,7 +24,7 @@ void Road::add(Vehiche vehicle) {
 
 Vehicle Road::pop() {
     Vehicle vehicle = queue.dequeue();
-    size += vehicle.getSize();
+    size_ += vehicle.getSize();
     vehicleOut_++;
     totalOut_++;
     return vehicle;
@@ -39,18 +39,18 @@ Road& Road::moveVehicle() {
 }
 
 int Road::timeToTravel() const {
-    return size / speed / 3.6;
+    return size_ / speed_ / 3.6;
 }
 
-int Road::vehicleIn() {
+int Road::vehicleIn() const {
     return vehicleIn_;
 }
 
-int Road::vehicleOut() {
+int Road::vehicleOut() const  {
     return vehicleOut_;
 }
 
-int Road::vehicleStay() {
+int Road::vehicleStay() const {
     return vehicleIn_ - vehicleOut_;
 }
 
@@ -103,7 +103,7 @@ Road& wayIn::moveVehicle() {
     if(!semaphore.isOpen)
         throw std::runtime_error("Semaforo fechado.");
 
-    double road = rand()/RAND_MAX;
+    double road = (rand()/RAND_MAX);
     auto vehicle = pop();
 
     if (road > probabilityRight) {
